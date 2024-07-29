@@ -18,7 +18,7 @@ class PlayerViewModel : ViewModel() {
     val uiState: StateFlow<PlayerUiState> = _uiState.asStateFlow()
 
     init {
-        getPlayers(1, 10)
+        getPlayers(1, 30)
     }
 
     private fun getPlayers(startId: Int, endId: Int) {
@@ -41,7 +41,11 @@ class PlayerViewModel : ViewModel() {
                     val player = request.await()
                     player?.let { players.add(it) }
                 }
-                _uiState.value = PlayerUiState.Success(players)
+                if (players.isEmpty()) {
+                    _uiState.value = PlayerUiState.Error
+                } else {
+                    _uiState.value = PlayerUiState.Success(players)
+                }
             } catch (e: Exception) {
                 _uiState.value = PlayerUiState.Error
             }
