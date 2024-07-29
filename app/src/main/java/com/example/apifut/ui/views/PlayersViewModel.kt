@@ -18,7 +18,7 @@ class PlayerViewModel : ViewModel() {
     val uiState: StateFlow<PlayerUiState> = _uiState.asStateFlow()
 
     init {
-        getPlayers(1, 50)
+        getPlayers(1, 10)
     }
 
     private fun getPlayers(startId: Int, endId: Int) {
@@ -47,10 +47,34 @@ class PlayerViewModel : ViewModel() {
             }
         }
     }
+
+    private val _playerDetailState = MutableStateFlow<PlayerDetailState>(PlayerDetailState.Loading)
+    val playerDetailState: StateFlow<PlayerDetailState> = _playerDetailState.asStateFlow()
+
+    fun getPlayer(playerId: String) {
+        val authToken = "820c26f3-2944-4dea-8260-b5a59fa5faac"
+        viewModelScope.launch {
+            _playerDetailState.value = PlayerDetailState.Loading
+            try {
+                val player = FutdbApi.retrofitService.getPlayer(playerId.toInt(), authToken).player
+                _playerDetailState.value = PlayerDetailState.Success(player)
+            } catch (e: IOException) {
+                _playerDetailState.value = PlayerDetailState.Error
+            } catch (e: HttpException) {
+                _playerDetailState.value = PlayerDetailState.Error
+            }
+        }
+    }
 }
 
 sealed interface PlayerUiState {
     object Loading : PlayerUiState
     data class Success(val players: List<Player>) : PlayerUiState
     object Error : PlayerUiState
+}
+
+sealed interface PlayerDetailState {
+    object Loading : PlayerDetailState
+    data class Success(val player: Player) : PlayerDetailState
+    object Error : PlayerDetailState
 }

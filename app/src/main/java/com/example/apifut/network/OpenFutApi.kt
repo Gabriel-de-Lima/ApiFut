@@ -40,14 +40,23 @@ object FutdbApi {
 
 // Classes de dados para a resposta
 data class Player(
-    val id: Int, // Adicionando o campo id
+    val id: Int,
     val firstName: String,
     val lastName: String,
-    val nation: Int,
-    val league: Int,
-    val club: Int,
-    val position: String,
-    val rating: Int
+    val name: String,
+    val commonName: String?,
+    val rating: String,
+    val skillMoves: Int,
+    val weakFoot: Int,
+    val foot: String,
+    val attackWorkRate: String,
+    val defenseWorkRate: String,
+    val pace: Int,
+    val shooting: Int,
+    val passing: Int,
+    val dribbling: Int,
+    val defending: Int,
+    val physicality: Int
 )
 
 data class PlayerResponse(
