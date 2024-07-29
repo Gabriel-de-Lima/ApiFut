@@ -9,7 +9,6 @@ import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import com.example.apifut.ui.theme.ApiFutTheme
 import com.example.apifut.ui.views.PlayerApp
-import com.example.apifut.ui.views.PlayerListScreen
 
 
 class MainActivity : ComponentActivity() {
