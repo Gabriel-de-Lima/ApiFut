@@ -12,7 +12,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -23,6 +22,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
@@ -106,8 +106,8 @@ fun LoadingScreen() {
                 contentDescription = "Loading",
                 modifier = Modifier
                     .size(70.dp)
+                    .padding(bottom = 10.dp)
             )
-            Spacer(modifier = Modifier.width(20.dp))
             Text("Loading...",
                 style = MaterialTheme.typography.bodyLarge,
                 color = Color(0, 64, 0),
@@ -240,9 +240,6 @@ fun PlayerEntry(
 }
 
 
-
-
-
 @Composable
 fun PlayerDetailScreen(
     playerId: String,
@@ -262,14 +259,15 @@ fun PlayerDetailScreen(
             Column(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(16.dp)
+                    .background(color = Color(218, 250, 218))
             ) {
                 // Top Section: Image and Basic Info
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(bottom = 16.dp),
-                    verticalAlignment = Alignment.CenterVertically
+                        .padding(16.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.Center
                 ) {
                     // Image
                     AsyncImage(
@@ -290,15 +288,31 @@ fun PlayerDetailScreen(
 
                     // Basic Info
                     Column {
-                        Text(text = "Name: ${player.name}", style = MaterialTheme.typography.bodyLarge)
-                        Text(text = "Rating: ${player.rating}", style = MaterialTheme.typography.bodyLarge)
+                        Text(text = "Name: ${player.name}", style = MaterialTheme.typography.bodyLarge.copy(
+                            color = Color(0, 64, 0),
+                            fontSize = 24.sp,
+                            fontWeight = FontWeight.Bold
+                        ))
+                        Text(text = "Rating: ${player.rating}", style = MaterialTheme.typography.bodyLarge.copy(
+                            color = Color(0, 64, 0),
+                            fontSize = 24.sp,
+                            fontWeight = FontWeight.Bold
+                        ))
 
                         // Skill Moves with Stars
-                        Text(text = "Skill Moves:", style = MaterialTheme.typography.bodyLarge)
+                        Text(text = "Skill Moves:", style = MaterialTheme.typography.bodyLarge.copy(
+                            color = Color(0, 64, 0),
+                            fontSize = 24.sp,
+                            fontWeight = FontWeight.Bold
+                        ))
                         SkillStars(player.skillMoves)
 
                         // Weak Foot with Stars
-                        Text(text = "Weak Foot:", style = MaterialTheme.typography.bodyLarge)
+                        Text(text = "Weak Foot:", style = MaterialTheme.typography.bodyLarge.copy(
+                            color = Color(0, 64, 0),
+                            fontSize = 24.sp,
+                            fontWeight = FontWeight.Bold
+                        ))
                         SkillStars(player.weakFoot)
                     }
                 }
@@ -307,24 +321,54 @@ fun PlayerDetailScreen(
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(vertical = 16.dp)
+                        .padding(16.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.Center
                 ) {
                     Column(
-                        modifier = Modifier.weight(1f)
+                        modifier = Modifier.weight(1f),
+                        verticalArrangement = Arrangement.Center,
+                        horizontalAlignment = Alignment.CenterHorizontally
                     ) {
-                        Text(text = "Pace: ${player.pace}", style = MaterialTheme.typography.bodyLarge)
-                        Text(text = "Shooting: ${player.shooting}", style = MaterialTheme.typography.bodyLarge)
-                        Text(text = "Passing: ${player.passing}", style = MaterialTheme.typography.bodyLarge)
+                        Text(text = "Pace: ${player.pace}", style = MaterialTheme.typography.bodyLarge.copy(
+                            color = Color(0, 64, 0),
+                            fontSize = 20.sp,
+                            fontWeight = FontWeight.Bold
+                        ))
+                        Text(text = "Shooting: ${player.shooting}", style = MaterialTheme.typography.bodyLarge.copy(
+                            color = Color(0, 64, 0),
+                            fontSize = 20.sp,
+                            fontWeight = FontWeight.Bold
+                        ))
+                        Text(text = "Passing: ${player.passing}", style = MaterialTheme.typography.bodyLarge.copy(
+                            color = Color(0, 64, 0),
+                            fontSize = 20.sp,
+                            fontWeight = FontWeight.Bold
+                        ))
                     }
 
                     Spacer(modifier = Modifier.width(16.dp))
 
                     Column(
-                        modifier = Modifier.weight(1f)
+                        modifier = Modifier.weight(1f),
+                        verticalArrangement = Arrangement.Center,
+                        horizontalAlignment = Alignment.CenterHorizontally
                     ) {
-                        Text(text = "Dribbling: ${player.dribbling}", style = MaterialTheme.typography.bodyLarge)
-                        Text(text = "Defending: ${player.defending}", style = MaterialTheme.typography.bodyLarge)
-                        Text(text = "Physicality: ${player.physicality}", style = MaterialTheme.typography.bodyLarge)
+                        Text(text = "Dribbling: ${player.dribbling}", style = MaterialTheme.typography.bodyLarge.copy(
+                            color = Color(0, 64, 0),
+                            fontSize = 20.sp,
+                            fontWeight = FontWeight.Bold
+                        ))
+                        Text(text = "Defending: ${player.defending}", style = MaterialTheme.typography.bodyLarge.copy(
+                            color = Color(0, 64, 0),
+                            fontSize = 20.sp,
+                            fontWeight = FontWeight.Bold
+                        ))
+                        Text(text = "Physicality: ${player.physicality}", style = MaterialTheme.typography.bodyLarge.copy(
+                            color = Color(0, 64, 0),
+                            fontSize = 20.sp,
+                            fontWeight = FontWeight.Bold
+                        ))
                     }
                 }
 
@@ -332,20 +376,45 @@ fun PlayerDetailScreen(
                 Column(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(vertical = 16.dp)
+                        .padding(16.dp),
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    Text(text = "Attack Work Rate: ${player.attackWorkRate}", style = MaterialTheme.typography.bodyLarge)
-                    Text(text = "Defense Work Rate: ${player.defenseWorkRate}", style = MaterialTheme.typography.bodyLarge)
+                    Text(text = "Attack Work Rate: ${player.attackWorkRate}", style = MaterialTheme.typography.bodyLarge.copy(
+                        color = Color(0, 64, 0),
+                        fontSize = 20.sp,
+                        fontWeight = FontWeight.Bold
+                    ))
+                    Text(text = "Defense Work Rate: ${player.defenseWorkRate}", style = MaterialTheme.typography.bodyLarge.copy(
+                        color = Color(0, 64, 0),
+                        fontSize = 20.sp,
+                        fontWeight = FontWeight.Bold
+                    ))
                 }
 
-                Spacer(modifier = Modifier.height(16.dp))
-
-                // Back Button with Restart
-                Button(onClick = {
-                    Log.d("PlayerDetailScreen", "Navigating back to player list")
-                    navController.popBackStack("playerList", inclusive = false)
-                }) {
-                    Text("Back to List")
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(16.dp),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Button(
+                        onClick = {
+                            Log.d("PlayerDetailScreen", "Navigating back to player list")
+                            navController.popBackStack("playerList", inclusive = false)
+                        },
+                        colors = ButtonDefaults.buttonColors(Color(0, 64, 0)),
+                        modifier = Modifier.padding(16.dp)
+                    ) {
+                        Text(
+                            text = "Back to List",
+                            color = Color.White,
+                            style = MaterialTheme.typography.bodyMedium.copy(
+                                fontSize = 24.sp,
+                                fontWeight = FontWeight.Bold
+                            )
+                        )
+                    }
                 }
             }
         }
