@@ -85,15 +85,36 @@ fun PlayerListScreen(
         is PlayerUiState.Error -> ErrorScreen()
     }
 }
+
 @Composable
 fun LoadingScreen() {
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color.Gray),
+            .background(Color(218, 250, 218)),
         contentAlignment = Alignment.Center
     ) {
-        Text("Loading...", style = MaterialTheme.typography.bodyLarge)
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
+        ) {
+            AsyncImage(
+                model = ImageRequest.Builder(LocalContext.current)
+                    .data(R.drawable.loading)
+                    .decoderFactory(coil.decode.GifDecoder.Factory())
+                    .build(),
+                contentDescription = "Loading",
+                modifier = Modifier
+                    .size(70.dp)
+            )
+            Spacer(modifier = Modifier.width(20.dp))
+            Text("Loading...",
+                style = MaterialTheme.typography.bodyLarge,
+                color = Color(0, 64, 0),
+                fontSize = 28.sp,
+                fontWeight = FontWeight.Bold,
+            )
+        }
     }
 }
 
@@ -102,10 +123,10 @@ fun ErrorScreen() {
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color.Red),
+            .background(Color.White),
         contentAlignment = Alignment.Center
     ) {
-        Text("Error occurred", style = MaterialTheme.typography.bodyLarge, color = Color.White)
+        Text("Error occurred", style = MaterialTheme.typography.bodyLarge, color = Color.Red)
     }
 }
 
@@ -169,10 +190,12 @@ fun PlayerEntry(
             .border(
                 width = 2.dp,
                 color = Color(0, 64, 0),
-                RoundedCornerShape(corner = CornerSize(15.dp)))
+                RoundedCornerShape(corner = CornerSize(15.dp))
+            )
             .clickable {
                 Log.d("PlayerEntry", "Navigating to player details for ID: ${player.id}")
-                navController.navigate("playerDetail/${player.id}") }
+                navController.navigate("playerDetail/${player.id}")
+            }
     ) {
         Row(
             modifier = Modifier
