@@ -8,10 +8,12 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -66,8 +68,6 @@ fun PlayerApp() {
         }
     }
 }
-
-
 
 
 @Composable
@@ -165,8 +165,14 @@ fun PlayerList(
             )
         }
         LazyColumn {
+            item {
+                Spacer(modifier = Modifier.height(10.dp))
+            }
             items(players) { player ->
-                PlayerEntry(player = player, navController = navController)
+                PlayerEntry(
+                    player = player,
+                    navController = navController,
+                )
             }
         }
     }
@@ -185,7 +191,7 @@ fun PlayerEntry(
             containerColor = Color.White
         ),
         modifier = Modifier
-            .padding(6.dp)
+            .padding(start = 10.dp, end = 10.dp, bottom = 10.dp)
             .fillMaxWidth()
             .border(
                 width = 2.dp,
@@ -199,8 +205,8 @@ fun PlayerEntry(
     ) {
         Row(
             modifier = Modifier
-                .padding(8.dp)
                 .background(Color.White)
+                .padding(10.dp)
                 .fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically
         ) {
@@ -217,13 +223,13 @@ fun PlayerEntry(
                     .size(64.dp)
                     .clip(RectangleShape)
             )
-            Spacer(modifier = Modifier.width(8.dp))
+            Spacer(modifier = Modifier.width(10.dp))
             Column {
                 Text(
                     text = player.commonName ?: player.name, // Exibe commonName ou name se commonName for nulo
                     style = MaterialTheme.typography.bodyLarge.copy(
                         color = Color(0, 64, 0),
-                        fontSize = 20.sp,
+                        fontSize = 24.sp,
                         fontWeight = FontWeight.Bold
                     )
                 )
@@ -231,7 +237,7 @@ fun PlayerEntry(
                     text = "Rating: ${player.rating}",
                     style = MaterialTheme.typography.bodyMedium.copy(
                         color = Color.DarkGray,
-                        fontSize = 18.sp
+                        fontSize = 20.sp
                     )
                 )
             }
@@ -261,159 +267,174 @@ fun PlayerDetailScreen(
                     .fillMaxSize()
                     .background(color = Color(218, 250, 218))
             ) {
-                // Top Section: Image and Basic Info
-                Row(
+                Card(
+                    colors = CardDefaults.cardColors(
+                        containerColor = Color.White
+                    ),
                     modifier = Modifier
+                        .padding(10.dp)
                         .fillMaxWidth()
-                        .padding(16.dp),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.Center
+                        .border(
+                            width = 2.dp,
+                            color = Color(0, 64, 0),
+                            RoundedCornerShape(corner = CornerSize(15.dp))
+                        )
                 ) {
-                    // Image
-                    AsyncImage(
-                        model = ImageRequest.Builder(LocalContext.current)
-                            .data("https://futdb.app/api/players/${player.id}/image")
-                            .addHeader("X-AUTH-TOKEN", "820c26f3-2944-4dea-8260-b5a59fa5faac")
-                            .crossfade(true)
-                            .build(),
-                        placeholder = painterResource(R.drawable.placeholder_image),
-                        contentDescription = player.firstName,
-                        contentScale = ContentScale.Crop,
+                    // Top Section: Image and Basic Info
+                    Row(
                         modifier = Modifier
-                            .size(128.dp)
-                            .clip(RectangleShape)
-                    )
-
-                    Spacer(modifier = Modifier.width(16.dp))
-
-                    // Basic Info
-                    Column {
-                        Text(text = "Name: ${player.name}", style = MaterialTheme.typography.bodyLarge.copy(
-                            color = Color(0, 64, 0),
-                            fontSize = 24.sp,
-                            fontWeight = FontWeight.Bold
-                        ))
-                        Text(text = "Rating: ${player.rating}", style = MaterialTheme.typography.bodyLarge.copy(
-                            color = Color(0, 64, 0),
-                            fontSize = 24.sp,
-                            fontWeight = FontWeight.Bold
-                        ))
-
-                        // Skill Moves with Stars
-                        Text(text = "Skill Moves:", style = MaterialTheme.typography.bodyLarge.copy(
-                            color = Color(0, 64, 0),
-                            fontSize = 24.sp,
-                            fontWeight = FontWeight.Bold
-                        ))
-                        SkillStars(player.skillMoves)
-
-                        // Weak Foot with Stars
-                        Text(text = "Weak Foot:", style = MaterialTheme.typography.bodyLarge.copy(
-                            color = Color(0, 64, 0),
-                            fontSize = 24.sp,
-                            fontWeight = FontWeight.Bold
-                        ))
-                        SkillStars(player.weakFoot)
-                    }
-                }
-
-                // Attributes Section: Pace, Shooting, Passing | Dribbling, Defending, Physicality
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(16.dp),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.Center
-                ) {
-                    Column(
-                        modifier = Modifier.weight(1f),
-                        verticalArrangement = Arrangement.Center,
-                        horizontalAlignment = Alignment.CenterHorizontally
+                            .fillMaxWidth()
+                            .padding(10.dp),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.Center
                     ) {
-                        Text(text = "Pace: ${player.pace}", style = MaterialTheme.typography.bodyLarge.copy(
-                            color = Color(0, 64, 0),
-                            fontSize = 20.sp,
-                            fontWeight = FontWeight.Bold
-                        ))
-                        Text(text = "Shooting: ${player.shooting}", style = MaterialTheme.typography.bodyLarge.copy(
-                            color = Color(0, 64, 0),
-                            fontSize = 20.sp,
-                            fontWeight = FontWeight.Bold
-                        ))
-                        Text(text = "Passing: ${player.passing}", style = MaterialTheme.typography.bodyLarge.copy(
-                            color = Color(0, 64, 0),
-                            fontSize = 20.sp,
-                            fontWeight = FontWeight.Bold
-                        ))
-                    }
+                        // Image
+                        AsyncImage(
+                            model = ImageRequest.Builder(LocalContext.current)
+                                .data("https://futdb.app/api/players/${player.id}/image")
+                                .addHeader("X-AUTH-TOKEN", "820c26f3-2944-4dea-8260-b5a59fa5faac")
+                                .crossfade(true)
+                                .build(),
+                            placeholder = painterResource(R.drawable.placeholder_image),
+                            contentDescription = player.firstName,
+                            contentScale = ContentScale.Crop,
+                            modifier = Modifier
+                                .size(128.dp)
+                                .clip(RectangleShape)
+                        )
 
-                    Spacer(modifier = Modifier.width(16.dp))
+                        Spacer(modifier = Modifier.width(16.dp))
 
-                    Column(
-                        modifier = Modifier.weight(1f),
-                        verticalArrangement = Arrangement.Center,
-                        horizontalAlignment = Alignment.CenterHorizontally
-                    ) {
-                        Text(text = "Dribbling: ${player.dribbling}", style = MaterialTheme.typography.bodyLarge.copy(
-                            color = Color(0, 64, 0),
-                            fontSize = 20.sp,
-                            fontWeight = FontWeight.Bold
-                        ))
-                        Text(text = "Defending: ${player.defending}", style = MaterialTheme.typography.bodyLarge.copy(
-                            color = Color(0, 64, 0),
-                            fontSize = 20.sp,
-                            fontWeight = FontWeight.Bold
-                        ))
-                        Text(text = "Physicality: ${player.physicality}", style = MaterialTheme.typography.bodyLarge.copy(
-                            color = Color(0, 64, 0),
-                            fontSize = 20.sp,
-                            fontWeight = FontWeight.Bold
-                        ))
-                    }
-                }
-
-                // Attack Work Rate and Defense Work Rate
-                Column(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(16.dp),
-                    verticalArrangement = Arrangement.Center,
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    Text(text = "Attack Work Rate: ${player.attackWorkRate}", style = MaterialTheme.typography.bodyLarge.copy(
-                        color = Color(0, 64, 0),
-                        fontSize = 20.sp,
-                        fontWeight = FontWeight.Bold
-                    ))
-                    Text(text = "Defense Work Rate: ${player.defenseWorkRate}", style = MaterialTheme.typography.bodyLarge.copy(
-                        color = Color(0, 64, 0),
-                        fontSize = 20.sp,
-                        fontWeight = FontWeight.Bold
-                    ))
-                }
-
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(16.dp),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Button(
-                        onClick = {
-                            Log.d("PlayerDetailScreen", "Navigating back to player list")
-                            navController.popBackStack("playerList", inclusive = false)
-                        },
-                        colors = ButtonDefaults.buttonColors(Color(0, 64, 0)),
-                        modifier = Modifier.padding(16.dp)
-                    ) {
-                        Text(
-                            text = "Back to List",
-                            color = Color.White,
-                            style = MaterialTheme.typography.bodyMedium.copy(
+                        // Basic Info
+                        Column {
+                            Text(text = "Name: ${player.name}", style = MaterialTheme.typography.bodyLarge.copy(
+                                color = Color(0, 64, 0),
                                 fontSize = 24.sp,
                                 fontWeight = FontWeight.Bold
+                            ))
+                            Text(text = "Rating: ${player.rating}", style = MaterialTheme.typography.bodyLarge.copy(
+                                color = Color(0, 64, 0),
+                                fontSize = 24.sp,
+                                fontWeight = FontWeight.Bold
+                            ))
+
+                            // Skill Moves with Stars
+                            Text(text = "Skill Moves:", style = MaterialTheme.typography.bodyLarge.copy(
+                                color = Color(0, 64, 0),
+                                fontSize = 24.sp,
+                                fontWeight = FontWeight.Bold
+                            ))
+                            SkillStars(player.skillMoves)
+
+                            // Weak Foot with Stars
+                            Text(text = "Weak Foot:", style = MaterialTheme.typography.bodyLarge.copy(
+                                color = Color(0, 64, 0),
+                                fontSize = 24.sp,
+                                fontWeight = FontWeight.Bold
+                            ))
+                            SkillStars(player.weakFoot)
+                        }
+                    }
+
+                    // Attributes Section: Pace, Shooting, Passing | Dribbling, Defending, Physicality
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(start = 10.dp, end = 10.dp),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.Center
+                    ) {
+                        Column(
+                            modifier = Modifier.weight(1f),
+                            verticalArrangement = Arrangement.Center,
+                            horizontalAlignment = Alignment.CenterHorizontally
+                        ) {
+                            Text(text = "Pace: ${player.pace}", style = MaterialTheme.typography.bodyLarge.copy(
+                                color = Color(0, 64, 0),
+                                fontSize = 20.sp,
+                                fontWeight = FontWeight.Bold
+                            ))
+                            Text(text = "Shooting: ${player.shooting}", style = MaterialTheme.typography.bodyLarge.copy(
+                                color = Color(0, 64, 0),
+                                fontSize = 20.sp,
+                                fontWeight = FontWeight.Bold
+                            ))
+                            Text(text = "Passing: ${player.passing}", style = MaterialTheme.typography.bodyLarge.copy(
+                                color = Color(0, 64, 0),
+                                fontSize = 20.sp,
+                                fontWeight = FontWeight.Bold
+                            ))
+                        }
+
+                        Spacer(modifier = Modifier.width(16.dp))
+
+                        Column(
+                            modifier = Modifier.weight(1f),
+                            verticalArrangement = Arrangement.Center,
+                            horizontalAlignment = Alignment.CenterHorizontally
+                        ) {
+                            Text(text = "Dribbling: ${player.dribbling}", style = MaterialTheme.typography.bodyLarge.copy(
+                                color = Color(0, 64, 0),
+                                fontSize = 20.sp,
+                                fontWeight = FontWeight.Bold
+                            ))
+                            Text(text = "Defending: ${player.defending}", style = MaterialTheme.typography.bodyLarge.copy(
+                                color = Color(0, 64, 0),
+                                fontSize = 20.sp,
+                                fontWeight = FontWeight.Bold
+                            ))
+                            Text(text = "Physicality: ${player.physicality}", style = MaterialTheme.typography.bodyLarge.copy(
+                                color = Color(0, 64, 0),
+                                fontSize = 20.sp,
+                                fontWeight = FontWeight.Bold
+                            ))
+                        }
+                    }
+
+                    // Attack Work Rate and Defense Work Rate
+                    Column(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(10.dp),
+                        verticalArrangement = Arrangement.Center,
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        Text(text = "Attack Work Rate: ${player.attackWorkRate}", style = MaterialTheme.typography.bodyLarge.copy(
+                            color = Color(0, 64, 0),
+                            fontSize = 20.sp,
+                            fontWeight = FontWeight.Bold
+                        ))
+                        Text(text = "Defense Work Rate: ${player.defenseWorkRate}", style = MaterialTheme.typography.bodyLarge.copy(
+                            color = Color(0, 64, 0),
+                            fontSize = 20.sp,
+                            fontWeight = FontWeight.Bold
+                        ))
+                    }
+
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(start = 10.dp, end = 10.dp, bottom = 10.dp),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Button(
+                            onClick = {
+                                Log.d("PlayerDetailScreen", "Navigating back to player list")
+                                navController.popBackStack("playerList", inclusive = false)
+                            },
+                            colors = ButtonDefaults.buttonColors(Color(0, 64, 0)),
+                            shape = RoundedCornerShape(10.dp),
+                            contentPadding = PaddingValues(10.dp)
+                        ) {
+                            Text(
+                                text = "Back to List",
+                                color = Color.White,
+                                style = MaterialTheme.typography.bodyMedium.copy(
+                                    fontSize = 24.sp,
+                                    fontWeight = FontWeight.Bold
+                                )
                             )
-                        )
+                        }
                     }
                 }
             }
