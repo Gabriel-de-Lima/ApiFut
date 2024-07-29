@@ -78,6 +78,7 @@ dependencies {
     implementation("io.coil-kt:coil:2.7.0")
     implementation("io.coil-kt:coil-compose:2.7.0")
 
+
     // Compose
     val lifecycle_version = "2.8.4"
 
